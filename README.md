@@ -20,13 +20,6 @@ A Syslog transport for [winston][0].
 The [winston][0] codebase has been growing significantly with contributions and other logging transports. This is **awesome**. However, taking a ton of additional dependencies just to do something simple like logging to the Console and a File is overkill.  
 
 ## Usage
-Because syslog only allows a subset of the levels available in [winston][0], levels that do not match will be ignored. Therefore, in order to use `winston-syslog` effectively, you should indicate to [winston][0] that you want to use the syslog levels:
-
-``` js
-  var winston = require('winston');
-  winston.setLevels(winston.config.syslog);
-```
-
 To use the Syslog transport in [winston][0], you simply need to require it and then either add it to an existing [winston][0] logger or pass an instance to a new [winston][0] logger:
 
 ``` js
@@ -47,6 +40,12 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 *Metadata:* Logged as string compiled by [glossy][3].
 
 ## Log Levels
+Because syslog only allows a subset of the levels available in [winston][0], levels that do not match will be ignored. Therefore, in order to use `winston-syslog` effectively, you should indicate to [winston][0] that you want to use the syslog levels:
+
+``` js
+  var winston = require('winston');
+  winston.setLevels(winston.config.syslog);
+```
 
 The `Syslog` transport will only log to the level that are available in the syslog protocol. These are (in increasing order of severity):
 
