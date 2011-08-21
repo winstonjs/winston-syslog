@@ -9,32 +9,9 @@
 var path = require('path'),
     vows = require('vows'),
     assert = require('assert'),
+    winston = require('winston'),
+    helpers = require('winston/test/helpers'),
     Syslog = require('../lib/winston-syslog').Syslog;
-
-try {
-  var winston = require('winston'),
-      utils   = require('winston/lib/winston/utils'),
-      helpers = require('winston/test/helpers');
-}
-catch (ex) {
-  var error = [
-    'Error running tests: ' + ex.message,
-    '',
-    'To run `winston-syslog` tests you need to',
-    'install winston locally in this project',
-    '',
-    '  $ cd ' + path.join(__dirname, '..'),
-    '  $ npm install winston',
-    '  $ vows --spec',
-    '',
-    'or',
-    '',
-    '  $ npm test'
-  ].join('\n');
-  
-  console.log(error);
-  process.exit(1);
-}
 
 function assertSyslog (transport) {
   assert.instanceOf(transport, Syslog);

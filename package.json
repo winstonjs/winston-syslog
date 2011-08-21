@@ -15,9 +15,10 @@
     "glossy": "0.x.x"
   },
   "devDependencies": {
+    "winston": "0.3.x",
     "vows": "0.5.x"
   },
   "main": "./lib/winston-syslog",
-  "scripts": { "test": "npm install winston && sudo vows test/*-test.js --spec" },
+  "scripts": { "test": "sudo vows test/*-test.js --spec" },
   "engines": { "node": ">= 0.4.0" }
 }
