@@ -1,7 +1,7 @@
 {
   "name": "winston-syslog",
   "description": "A syslog transport for winston",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "contributors": [
     { "name": "Squeeks", "email": "privacymyass@gmail.com" }
@@ -15,7 +15,7 @@
     "glossy": "0.x.x"
   },
   "devDependencies": {
-    "winston": "0.3.x",
+    "winston": "0.4.x",
     "vows": "0.5.x"
   },
   "main": "./lib/winston-syslog",
