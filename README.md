@@ -5,13 +5,16 @@ A Syslog transport for [winston][0].
 ## Installation
 
 ### Installing npm (node package manager)
-```
-  curl http://npmjs.org/install.sh | sh
+
+``` bash
+  $ curl http://npmjs.org/install.sh | sh
 ```
 
 ### Installing winston-syslog
-```
-  [sudo] npm install winston-syslog
+
+``` bash
+  $ npm install winston 
+  $ npm install winston-syslog
 ```
 
 ## Motivation
@@ -23,8 +26,15 @@ The [winston][0] codebase has been growing significantly with contributions and 
 To use the Syslog transport in [winston][0], you simply need to require it and then either add it to an existing [winston][0] logger or pass an instance to a new [winston][0] logger:
 
 ``` js
-  var Syslog = require('winston-syslog').Syslog;
-  winston.add(Syslog, options);
+  var winston = require('winston');
+  
+  //
+  // Requiring `winston-syslog` will expose 
+  // `winston.transports.Syslog`
+  //
+  require('winston-syslog').Syslog;
+  
+  winston.add(winston.transports.Syslog, options);
 ```
 
 In addition to the options accepted by the syslog (compliant with [RFC 3164][1] and [RFC 5424][2]), the Riak transport also accepts the following options. It is worth noting that the riak-js debug option is set to *false* by default:
