@@ -29,6 +29,7 @@ vows.describe('winston-syslog').addBatch({
    "the log() method": helpers.testSyslogLevels(transport, "should log messages to syslogd", function (ign, err, ok) {
      assert.isTrue(!err);
      assert.isTrue(ok);
+     assert.equal(transport.queue.length, 0); //This is > 0 because winston-syslog.js line 124
    })
  }
 }).export(module);
