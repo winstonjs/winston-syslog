@@ -19,7 +19,10 @@ function assertSyslog (transport) {
   assert.isFunction(transport.connect);
 };
 
-var transport = new Syslog();
+// manually try calling `node test/syslog-test.js` with unix, udp4 and tcp protocol
+var transport = new Syslog({
+  // protocol: 'unix'
+});
 
 vows.describe('winston-syslog').addBatch({
  "An instance of the Syslog Transport": {
