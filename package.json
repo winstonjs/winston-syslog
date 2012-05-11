@@ -15,8 +15,8 @@
     "glossy": "0.x.x"
   },
   "devDependencies": {
-    "winston": "0.4.x",
-    "vows": "0.5.x"
+    "winston": "0.5.x",
+    "vows": "0.6.x"
   },
   "main": "./lib/winston-syslog",
   "scripts": { "test": "sudo vows test/*-test.js --spec" },
