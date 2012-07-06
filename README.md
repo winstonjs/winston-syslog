@@ -54,7 +54,7 @@ Because syslog only allows a subset of the levels available in [winston][0], lev
 
 ``` js
   var winston = require('winston');
-  winston.setLevels(winston.config.syslog);
+  winston.setLevels(winston.config.syslog.levels);
 ```
 
 The `Syslog` transport will only log to the level that are available in the syslog protocol. These are (in increasing order of severity):
