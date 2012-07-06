@@ -8,11 +8,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/indexzero/winston-syslog.git" 
+    "url": "http://github.com/indexzero/winston-syslog.git"
   },
   "keywords": ["logging", "sysadmin", "tools", "winston", "syslog"],
   "dependencies": {
-    "glossy": "0.x.x"
+    "glossy": "0.x.x",
+    "unix-dgram": ">= 0.0.1"
   },
   "devDependencies": {
     "winston": "0.5.x",
