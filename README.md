@@ -46,6 +46,7 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 * __facility:__ Syslog facility to use (Default: `local0`).
 * __localhost:__ Host to indicate that log messages are coming from (Default: `localhost`).
 * __type:__ The type of the syslog protocol to use (Default: `BSD`).
+* __app_name:__ The name of the application (Default: `process.title`).
 
 *Metadata:* Logged as string compiled by [glossy][3].
 
@@ -54,7 +55,7 @@ Because syslog only allows a subset of the levels available in [winston][0], lev
 
 ``` js
   var winston = require('winston');
-  winston.setLevels(winston.config.syslog);
+  winston.setLevels(winston.config.syslog.levels);
 ```
 
 The `Syslog` transport will only log to the level that are available in the syslog protocol. These are (in increasing order of severity):
