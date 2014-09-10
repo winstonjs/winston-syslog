@@ -12,8 +12,7 @@
   },
   "keywords": ["logging", "sysadmin", "tools", "winston", "syslog"],
   "dependencies": {
-    "glossy": "0.x.x",
-    "unix-dgram": ">= 0.0.1"
+    "glossy": "0.x.x"
   },
   "devDependencies": {
     "winston": "0.5.x",
