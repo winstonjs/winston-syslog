@@ -22,9 +22,11 @@
   ],
   "dependencies": {
     "cycle": "~1.0.3",
-    "glossy": "0.x.x",
-    "unix-dgram": "~0.2.1"
+    "glossy": "0.x.x"
   },
+  "optionalDependencies": {
+    "unix-dgram": "~0.2.1"
+  },  
   "devDependencies": {
     "stylezero": "^2.3.0",
     "vows": "~0.8.1",
