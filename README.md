@@ -41,7 +41,7 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 
 * __host:__ The host running syslogd, defaults to localhost.
 * __port:__ The port on the host that syslog is running on, defaults to syslogd's default port.
-* __protocol:__ The network protocol to log over (e.g. `tcp4`, `udp4`, etc).
+* __protocol:__ The network protocol to log over (e.g. `tcp4`, `udp4`, `unix`, `unix-connect`, etc).
 * __pid:__ PID of the process that log messages are coming from (Default `process.pid`).
 * __facility:__ Syslog facility to use (Default: `local0`).
 * __localhost:__ Host to indicate that log messages are coming from (Default: `localhost`).
