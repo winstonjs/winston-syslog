@@ -4,22 +4,38 @@
   "version": "0.2.5",
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "contributors": [
-    { "name": "Squeeks", "email": "privacymyass@gmail.com" }
+    {
+      "name": "Squeeks",
+      "email": "privacymyass@gmail.com"
+    }
   ],
   "repository": {
     "type": "git",
     "url": "http://github.com/indexzero/winston-syslog.git"
   },
-  "keywords": ["logging", "sysadmin", "tools", "winston", "syslog"],
+  "keywords": [
+    "logging",
+    "sysadmin",
+    "tools",
+    "winston",
+    "syslog"
+  ],
   "dependencies": {
+    "cycle": "~1.0.3",
     "glossy": "0.x.x",
     "unix-dgram": "~0.1.1"
   },
   "devDependencies": {
-    "winston": "0.5.x",
-    "vows": "0.6.x"
+    "stylezero": "~2.1.1",
+    "vows": "0.8.x",
+    "winston": "0.8.x"
   },
   "main": "./lib/winston-syslog",
-  "scripts": { "test": "sudo vows test/*-test.js --spec" },
-  "engines": { "node": ">= 0.4.0" }
+  "scripts": {
+    "pretest": "stylezero lib/ test/",
+    "test": "sudo vows test/*-test.js --spec"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  }
 }
