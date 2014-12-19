@@ -1,7 +1,7 @@
 {
   "name": "winston-syslog",
   "description": "A syslog transport for winston",
-  "version": "0.2.5",
+  "version": "1.0.0",
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "contributors": [
     {
@@ -36,6 +36,6 @@
     "test": "sudo vows test/*-test.js --spec"
   },
   "engines": {
-    "node": ">= 0.4.0"
+    "node": ">= 0.8.0"
   }
 }
