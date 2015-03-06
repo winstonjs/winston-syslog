@@ -28,7 +28,7 @@
   "devDependencies": {
     "stylezero": "~2.1.1",
     "vows": "0.8.x",
-    "winston": "0.8.x"
+    "winston": "^0.9.0"
   },
   "main": "./lib/winston-syslog",
   "scripts": {
