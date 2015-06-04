@@ -23,7 +23,7 @@
   "dependencies": {
     "cycle": "~1.0.3",
     "glossy": "0.x.x",
-    "unix-dgram": "~0.1.1"
+    "unix-dgram": "~0.2.1"
   },
   "devDependencies": {
     "stylezero": "~2.1.1",
