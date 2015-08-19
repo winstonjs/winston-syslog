@@ -48,6 +48,7 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 * __localhost:__ Host to indicate that log messages are coming from (Default: `localhost`).
 * __type:__ The type of the syslog protocol to use (Default: `BSD`).
 * __app_name:__ The name of the application (Default: `process.title`).
+* __eol:__ The end of line character to be added to the end of the message (Default: Message without modifications).
 
 *Metadata:* Logged as string compiled by [glossy][3].
 
