@@ -26,14 +26,14 @@
     "unix-dgram": "~0.2.1"
   },
   "devDependencies": {
-    "stylezero": "~2.1.1",
-    "vows": "0.8.x",
-    "winston": "^0.9.0"
+    "stylezero": "^2.3.0",
+    "vows": "~0.8.1",
+    "winston": "^2.1.0"
   },
   "main": "./lib/winston-syslog",
   "scripts": {
     "pretest": "stylezero lib/ test/",
-    "test": "sudo vows test/*-test.js --spec"
+    "test": "vows test/*-test.js --spec"
   },
   "engines": {
     "node": ">= 0.8.0"
