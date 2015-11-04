@@ -19,12 +19,22 @@ function assertSyslog(transport) {
   assert.isFunction(transport.connect);
 }
 
-function closeTopic() {
+function closeTopicInfo() {
   var transport = new winston.transports.Syslog(),
       logger = new winston.Logger({ transports: [transport] });
 
   logger.log('info', 'Test message to actually use socket');
-  logger.remove({ name: 'syslog' });
+  logger.remove(transport);
+
+  return transport;
+}
+
+function closeTopicDebug() {
+  var transport = new winston.transports.Syslog(),
+      logger = new winston.Logger({ transports: [transport] });
+
+  logger.log('debug', 'Test message to actually use socket');
+  logger.remove(transport);
 
   return transport;
 }
@@ -42,8 +52,18 @@ vows.describe('winston-syslog').addBatch({
       assert.isTrue(ok);
       assert.equal(transport.queue.length, 0); // This is > 0 because winston-syslog.js line 124
     }),
-    'on close': {
-      topic: closeTopic,
+    'on close after not really writing': {
+      topic: closeTopicDebug,
+      on: {
+        closed: {
+          'closes the socket': function (socket) {
+            assert.isNull(socket);
+          }
+        }
+      }
+    },
+    'on close after really writing': {
+      topic: closeTopicInfo,
       on: {
         closed: {
           'closes the socket': function (socket) {
