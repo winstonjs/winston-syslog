@@ -74,6 +74,21 @@ vows.describe('winston-syslog').addBatch({
           }
         }
       }
+    },
+    'localhost option': {
+      'should default to localhost': function () {
+        var transport = new winston.transports.Syslog();
+        assert.equal(transport.localhost, 'localhost');
+        transport.close();
+      },
+      'should accept other falsy entries as valid': function () {
+        var transport = new winston.transports.Syslog({ localhost: null });
+        assert.isNull(transport.localhost);
+        transport.close();
+        transport = new winston.transports.Syslog({ localhost: false });
+        assert.equal(transport.localhost, false);
+        transport.close();
+      }
     }
   }
 }).export(module);
