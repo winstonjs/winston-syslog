@@ -25,10 +25,10 @@ var server;
 
 vows.describe('unix-connect').addBatch({
   'Trying to log to a non-existant log server': {
-    'should enqueue the log message': function () {
+    topic: function () {
+      var self = this;
       transport.once('error', function (err) {
-        assert(err);
-        assert.equal(err.syscall, 'connect');
+        self.callback(null, err);
       });
 
       transport.log('debug', 'data' + (++times), null, function (err) {
@@ -36,15 +36,25 @@ vows.describe('unix-connect').addBatch({
         assert.equal(err.syscall, 'connect');
         assert.equal(transport.queue.length, 1);
       });
+    },
+    'should enqueue the log message': function (err) {
+      assert(err);
+      assert.equal(err.syscall, 'connect');
     }
   }
 }).addBatch({
   'Logging when log server is up': {
-    'should log enqueued msg and then new msg': function () {
+    topic: function () {
+      var self = this;
       var n = 0;
       server = unix.createSocket('unix_dgram', function (buf, rinfo) {
         parser.parse(buf, function (d) {
-          assert.equal(d.message, 'data' + (++n));
+          ++n;
+          assert(n <= 2);
+          assert.equal(d.message, 'node[' + process.pid + ']: debug: data' + n);
+          if (n === 2) {
+            self.callback();
+          }
         });
       });
 
@@ -52,31 +62,30 @@ vows.describe('unix-connect').addBatch({
       transport.log('debug', 'data' + (++times), null, function (err) {
         assert.ifError(err);
       });
+    },
+    'should print both the enqueed and the new msg': function (err) {
+      assert.ifError(err);
     }
   }
 }).addBatch({
   'Logging if server goes down again': {
-    'should enqueue the log message': function () {
+    topic: function () {
+      var self = this;
       transport.once('error', function (err) {
-        assert(err);
-        assert.equal(err.syscall, 'send');
-        process.nextTick(function () {
-          assert.equal(transport.queue.length, 1);
-        });
+        self.callback(null, err);
       });
 
       server.close();
 
       transport.log('debug', 'data' + (++times), null, function (err) {
         assert.ifError(err);
+        assert.equal(transport.queue.length, 1);
       });
+    },
+    'should enqueue the log message': function (err) {
+      assert(err);
+      assert.equal(err.syscall, 'send');
+      transport.close();
     }
   }
 }).export(module);
-
-//
-// TODO: Close all the syslog connections so vows exits.
-//
-setTimeout(function () {
-  process.exit(0);
-}, 5000);
