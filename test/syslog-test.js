@@ -74,10 +74,3 @@ vows.describe('winston-syslog').addBatch({
     }
   }
 }).export(module);
-
-//
-// TODO: Close all the syslog connections so vows exits.
-//
-setTimeout(function () {
-  process.exit(0);
-}, 5000);
