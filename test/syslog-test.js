@@ -52,6 +52,9 @@ vows.describe('winston-syslog').addBatch({
       assert.isTrue(ok);
       assert.equal(transport.queue.length, 0); // This is > 0 because winston-syslog.js line 124
     }),
+    teardown: function () {
+      transport.close();
+    },
     'on close after not really writing': {
       topic: closeTopicDebug,
       on: {
