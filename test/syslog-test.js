@@ -89,6 +89,14 @@ vows.describe('winston-syslog').addBatch({
         assert.equal(transport.localhost, false);
         transport.close();
       }
+    },
+    'adding / removing transport to syslog': {
+      'should just work': function () {
+        winston.add(winston.transports.Syslog);
+        winston.remove(winston.transports.Syslog);
+        winston.add(winston.transports.Syslog);
+        winston.remove(winston.transports.Syslog);
+      }
     }
   }
 }).export(module);
