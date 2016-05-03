@@ -88,4 +88,37 @@ vows.describe('unix-connect').addBatch({
       transport.close();
     }
   }
+}).addBatch({
+  'Logging works if server comes up again': {
+    topic: function () {
+      var self = this;
+      var n = 2;
+      try {
+        fs.unlinkSync(SOCKNAME);
+      }
+      catch (e) {
+        /* swallow */
+      }
+      server = unix.createSocket('unix_dgram', function (buf, rinfo) {
+        parser.parse(buf, function (d) {
+          ++n;
+          assert(n <= 4);
+          assert.equal(d.message, 'node[' + process.pid + ']: debug: data' + n);
+          if (n === 4) {
+            self.callback();
+          }
+        });
+      });
+
+      server.bind(SOCKNAME);
+      transport.log('debug', 'data' + (++times), null, function (err) {
+        assert.ifError(err);
+      });
+    },
+    'should print both the enqueed and the new msg': function (err) {
+      assert.ifError(err);
+      server.close();
+    }
+  }
+
 }).export(module);
