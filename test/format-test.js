@@ -63,6 +63,30 @@ vows.describe('syslog messages').addBatch({
         'should have host different from localhost': function (msg) {
           assert.notEqual(msg.host, 'localhost');
           transport.close();
+        },
+        'setting appId option to hello': {
+          topic: function () {
+            var self = this;
+            server.once('message', function (msg) {
+              parser.parse(msg, function (d) {
+                self.callback(undefined, d);
+              });
+            });
+
+            transport = new winston.transports.Syslog({
+              port: PORT,
+              type: '5424',
+              appId: 'hello'
+            });
+
+            transport.log('debug', 'app name test', null, function (err) {
+              assert.ifError(err);
+            });
+          },
+          'should have appName field set to hello': function (msg) {
+            assert.equal(msg.appName, 'hello');
+            transport.close();
+          }
         }
       }
     },
