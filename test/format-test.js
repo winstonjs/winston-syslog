@@ -64,7 +64,7 @@ vows.describe('syslog messages').addBatch({
           assert.notEqual(msg.host, 'localhost');
           transport.close();
         },
-        'setting appId option to hello': {
+        'setting appName option to hello': {
           topic: function () {
             var self = this;
             server.once('message', function (msg) {
@@ -76,7 +76,7 @@ vows.describe('syslog messages').addBatch({
             transport = new winston.transports.Syslog({
               port: PORT,
               type: '5424',
-              appId: 'hello'
+              appName: 'hello'
             });
 
             transport.log('debug', 'app name test', null, function (err) {
@@ -86,6 +86,30 @@ vows.describe('syslog messages').addBatch({
           'should have appName field set to hello': function (msg) {
             assert.equal(msg.appName, 'hello');
             transport.close();
+          },
+          'setting app_name option to hello': {
+            topic: function () {
+              var self = this;
+              server.once('message', function (msg) {
+                parser.parse(msg, function (d) {
+                  self.callback(undefined, d);
+                });
+              });
+
+              transport = new winston.transports.Syslog({
+                port: PORT,
+                type: '5424',
+                app_name: 'hello'
+              });
+
+              transport.log('debug', 'app name test', null, function (err) {
+                assert.ifError(err);
+              });
+            },
+            'should have appName field set to hello': function (msg) {
+              assert.equal(msg.appName, 'hello');
+              transport.close();
+            }
           }
         }
       }
