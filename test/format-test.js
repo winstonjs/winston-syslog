@@ -64,7 +64,7 @@ vows.describe('syslog messages').addBatch({
           assert.notEqual(msg.host, 'localhost');
           transport.close();
         },
-        'setting appId option to hello': {
+        'setting appName option to hello': {
           topic: function () {
             var self = this;
             server.once('message', function (msg) {
@@ -76,7 +76,7 @@ vows.describe('syslog messages').addBatch({
             transport = new winston.transports.Syslog({
               port: PORT,
               type: '5424',
-              appId: 'hello'
+              appName: 'hello'
             });
 
             transport.log('debug', 'app name test', null, function (err) {
