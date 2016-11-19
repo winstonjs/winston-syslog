@@ -39,14 +39,6 @@ function closeTopicDebug() {
   return transport;
 }
 
-function checkInvalidProtocol(protocol) {
-  assert.throws(function () {
-    var t = new Syslog({
-      protocol: protocol
-    });
-  }, /Invalid syslog protocol/);
-}
-
 var transport = new Syslog();
 
 vows.describe('winston-syslog').addBatch({
@@ -104,20 +96,6 @@ vows.describe('winston-syslog').addBatch({
         winston.remove(winston.transports.Syslog);
         winston.add(winston.transports.Syslog);
         winston.remove(winston.transports.Syslog);
-      }
-    },
-    'adding invalid unix transport': {
-      'should throw': function () {
-        checkInvalidProtocol('unix-test');
-        checkInvalidProtocol('unix-connect-test');
-        checkInvalidProtocol('test-unix');
-        checkInvalidProtocol('test-unix-connect');
-        checkInvalidProtocol('udp4-test');
-        checkInvalidProtocol('test-udp4');
-        checkInvalidProtocol('tcp-test');
-        checkInvalidProtocol('test-tcp');
-        checkInvalidProtocol('udp5');
-        checkInvalidProtocol('udp45');
       }
     }
   }
