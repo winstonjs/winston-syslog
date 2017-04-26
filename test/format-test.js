@@ -118,4 +118,45 @@ vows.describe('syslog messages').addBatch({
       server.close();
     }
   }
+}).addBatch({
+  'opening fake syslog server': {
+    topic: function () {
+      var self = this;
+      server = dgram.createSocket('udp4');
+      server.on('listening', function () {
+        self.callback();
+      });
+
+      server.bind(PORT);
+    },
+    'Custom producer': {
+      topic: function () {
+        var self = this;
+        server.once('message', function (msg) {
+          self.callback(undefined, msg.toString());
+        });
+
+        function CustomProducer() {}
+        CustomProducer.prototype.produce = function (opts) {
+          return 'test ' + opts.message;
+        };
+
+        transport = new winston.transports.Syslog({
+          port: PORT,
+          customProducer: CustomProducer
+        });
+
+        transport.log('debug', 'ping', null, function (err) {
+          assert.ifError(err);
+        });
+      },
+      'should apply custom syslog format': function (msg) {
+        assert.equal(msg, 'test debug: ping');
+        transport.close();
+      }
+    },
+    teardown: function () {
+      server.close();
+    }
+  }
 }).export(module);
