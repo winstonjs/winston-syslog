@@ -62,7 +62,7 @@ Because syslog only allows a subset of the levels available in [winston][0], lev
     transports: [
       new winston.transports.Syslog()
     ]
-  })
+  });
 ```
 
 The `Syslog` transport will only log to the level that are available in the syslog protocol. These are (in increasing order of severity):
