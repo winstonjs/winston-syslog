@@ -6,6 +6,8 @@ var unix = require('unix-dgram');
 var parser = require('glossy').Parse;
 var Syslog = require('../lib/winston-syslog').Syslog;
 
+const { MESSAGE, LEVEL } = require('triple-beam');
+
 var SOCKNAME = '/tmp/unix_dgram.sock';
 
 var transport = new Syslog({
@@ -31,7 +33,7 @@ vows.describe('unix-connect').addBatch({
         self.callback(null, err);
       });
 
-      transport.log('debug', 'data' + (++times), null, function (err) {
+      transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert(err);
         assert.equal(err.syscall, 'connect');
         assert.equal(transport.queue.length, 1);
@@ -51,7 +53,8 @@ vows.describe('unix-connect').addBatch({
         parser.parse(buf, function (d) {
           ++n;
           assert(n <= 2);
-          assert.equal(d.message, 'node[' + process.pid + ']: debug: data' + n);
+          assert.equal(d.message, 'node[' + process.pid + ']: data' + n);
+          assert.equal(d.severity, 'debug');
           if (n === 2) {
             self.callback();
           }
@@ -59,7 +62,7 @@ vows.describe('unix-connect').addBatch({
       });
 
       server.bind(SOCKNAME);
-      transport.log('debug', 'data' + (++times), null, function (err) {
+      transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert.ifError(err);
       });
     },
@@ -77,7 +80,7 @@ vows.describe('unix-connect').addBatch({
 
       server.close();
 
-      transport.log('debug', 'data' + (++times), null, function (err) {
+     transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert.ifError(err);
         assert.equal(transport.queue.length, 1);
       });
@@ -103,7 +106,8 @@ vows.describe('unix-connect').addBatch({
         parser.parse(buf, function (d) {
           ++n;
           assert(n <= 4);
-          assert.equal(d.message, 'node[' + process.pid + ']: debug: data' + n);
+          assert.equal(d.message, 'node[' + process.pid + ']: data' + n);
+          assert.equal(d.severity, 'debug');
           if (n === 4) {
             self.callback();
           }
@@ -111,7 +115,7 @@ vows.describe('unix-connect').addBatch({
       });
 
       server.bind(SOCKNAME);
-      transport.log('debug', 'data' + (++times), null, function (err) {
+      transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert.ifError(err);
       });
     },
