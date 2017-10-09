@@ -21,7 +21,7 @@ function assertSyslog(transport) {
 
 function closeTopicInfo() {
   var transport = new winston.transports.Syslog(),
-      logger = new winston.Logger({ transports: [transport] });
+      logger = new winston.createLogger({ transports: [transport] });
 
   logger.log('info', 'Test message to actually use socket');
   logger.remove(transport);
@@ -31,7 +31,7 @@ function closeTopicInfo() {
 
 function closeTopicDebug() {
   var transport = new winston.transports.Syslog(),
-      logger = new winston.Logger({ transports: [transport] });
+      logger = new winston.createLogger({ transports: [transport] });
 
   logger.log('debug', 'Test message to actually use socket');
   logger.remove(transport);
@@ -46,12 +46,6 @@ vows.describe('winston-syslog').addBatch({
     'should have the proper methods defined': function () {
       assertSyslog(transport);
     },
-    'the log() method': helpers.testSyslogLevels(transport, 'should log messages to syslogd', function (ign, err, ok) {
-      assert.isNull(ign);
-      assert.isTrue(!err);
-      assert.isTrue(ok);
-      assert.equal(transport.queue.length, 0); // This is > 0 because winston-syslog.js line 124
-    }),
     teardown: function () {
       transport.close();
     },
@@ -92,10 +86,10 @@ vows.describe('winston-syslog').addBatch({
     },
     'adding / removing transport to syslog': {
       'should just work': function () {
-        winston.add(winston.transports.Syslog);
-        winston.remove(winston.transports.Syslog);
-        winston.add(winston.transports.Syslog);
-        winston.remove(winston.transports.Syslog);
+        winston.add(new winston.transports.Syslog());
+        winston.remove(new winston.transports.Syslog());
+        winston.add(new winston.transports.Syslog());
+        winston.remove(new winston.transports.Syslog());
       }
     }
   }

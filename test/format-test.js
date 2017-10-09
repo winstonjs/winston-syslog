@@ -1,3 +1,5 @@
+'use strict'
+
 var fs = require('fs');
 var vows = require('vows');
 var assert = require('assert');
@@ -9,6 +11,8 @@ var Syslog = require('../lib/winston-syslog').Syslog;
 var PORT = 11229;
 var server;
 var transport;
+
+const { MESSAGE, LEVEL } = require('triple-beam');
 
 vows.describe('syslog messages').addBatch({
   'opening fake syslog server': {
@@ -33,8 +37,7 @@ vows.describe('syslog messages').addBatch({
         transport = new winston.transports.Syslog({
           port: PORT
         });
-
-        transport.log('debug', 'ping', null, function (err) {
+        transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'ping' }, function (err) {
           assert.ifError(err);
         });
       },
@@ -56,7 +59,7 @@ vows.describe('syslog messages').addBatch({
             localhost: null
           });
 
-          transport.log('debug', 'ping2', null, function (err) {
+          transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'ping2' }, function (err) {
             assert.ifError(err);
           });
         },
@@ -79,7 +82,7 @@ vows.describe('syslog messages').addBatch({
               appName: 'hello'
             });
 
-            transport.log('debug', 'app name test', null, function (err) {
+            transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'app name test' }, function (err) {
               assert.ifError(err);
             });
           },
@@ -102,7 +105,7 @@ vows.describe('syslog messages').addBatch({
                 app_name: 'hello'
               });
 
-              transport.log('debug', 'app name test', null, function (err) {
+              transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'app name test' }, function (err) {
                 assert.ifError(err);
               });
             },
