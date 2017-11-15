@@ -1,34 +1,34 @@
-var fs = require('fs');
-var vows = require('vows');
-var assert = require('assert');
-var winston = require('winston');
-var unix = require('unix-dgram');
-var parser = require('glossy').Parse;
-var Syslog = require('../lib/winston-syslog').Syslog;
+/* eslint no-sync: "off" */
+
+const fs = require('fs');
+const vows = require('vows');
+const assert = require('assert');
+const unix = require('unix-dgram');
+const parser = require('glossy').Parse;
+const Syslog = require('../lib/winston-syslog').Syslog;
 
 const { MESSAGE, LEVEL } = require('triple-beam');
 
-var SOCKNAME = '/tmp/unix_dgram.sock';
+const SOCKNAME = '/tmp/unix_dgram.sock';
 
-var transport = new Syslog({
+const transport = new Syslog({
   protocol: 'unix-connect',
   path: SOCKNAME
 });
 
 try {
   fs.unlinkSync(SOCKNAME);
-}
-catch (e) {
+} catch (e) {
   /* swallow */
 }
 
-var times = 0;
-var server;
+let times = 0;
+let server;
 
 vows.describe('unix-connect').addBatch({
   'Trying to log to a non-existant log server': {
-    topic: function () {
-      var self = this;
+    'topic': function () {
+      const self = this;
       transport.once('error', function (err) {
         self.callback(null, err);
       });
@@ -46,10 +46,10 @@ vows.describe('unix-connect').addBatch({
   }
 }).addBatch({
   'Logging when log server is up': {
-    topic: function () {
-      var self = this;
-      var n = 0;
-      server = unix.createSocket('unix_dgram', function (buf, rinfo) {
+    'topic': function () {
+      const self = this;
+      let n = 0;
+      server = unix.createSocket('unix_dgram', function (buf) {
         parser.parse(buf, function (d) {
           ++n;
           assert(n <= 2);
@@ -72,15 +72,15 @@ vows.describe('unix-connect').addBatch({
   }
 }).addBatch({
   'Logging if server goes down again': {
-    topic: function () {
-      var self = this;
+    'topic': function () {
+      const self = this;
       transport.once('error', function (err) {
         self.callback(null, err);
       });
 
       server.close();
 
-     transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
+      transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert.ifError(err);
         assert.equal(transport.queue.length, 1);
       });
@@ -93,16 +93,15 @@ vows.describe('unix-connect').addBatch({
   }
 }).addBatch({
   'Logging works if server comes up again': {
-    topic: function () {
-      var self = this;
-      var n = 2;
+    'topic': function () {
+      const self = this;
+      let n = 2;
       try {
         fs.unlinkSync(SOCKNAME);
-      }
-      catch (e) {
+      } catch (e) {
         /* swallow */
       }
-      server = unix.createSocket('unix_dgram', function (buf, rinfo) {
+      server = unix.createSocket('unix_dgram', function (buf) {
         parser.parse(buf, function (d) {
           ++n;
           assert(n <= 4);

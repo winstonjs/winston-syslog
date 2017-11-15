@@ -38,7 +38,7 @@
   },
   "main": "./lib/winston-syslog",
   "scripts": {
-    "lint": "populist lib/*.js",
+    "lint": "populist **/*.js",
     "pretest": "npm run lint",
     "test": "vows test/*-test.js --spec"
   },

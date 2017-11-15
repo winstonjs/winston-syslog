@@ -1,3 +1,4 @@
+/* eslint new-cap: ["error", { "newIsCapExceptions": ["createLogger"] }] */
 /*
  * syslog-test.js: Tests for instances of the Syslog transport
  *
@@ -6,12 +7,10 @@
  *
  */
 
-var path = require('path'),
-    vows = require('vows'),
-    assert = require('assert'),
-    winston = require('winston'),
-    helpers = require('winston/test/helpers'),
-    Syslog = require('../lib/winston-syslog').Syslog;
+const vows = require('vows');
+const assert = require('assert');
+const winston = require('winston');
+const Syslog = require('../lib/winston-syslog').Syslog;
 
 function assertSyslog(transport) {
   assert.instanceOf(transport, Syslog);
@@ -20,8 +19,8 @@ function assertSyslog(transport) {
 }
 
 function closeTopicInfo() {
-  var transport = new winston.transports.Syslog(),
-      logger = new winston.createLogger({ transports: [transport] });
+  const transport = new winston.transports.Syslog();
+  const logger = new winston.createLogger({ transports: [transport] });
 
   logger.log('info', 'Test message to actually use socket');
   logger.remove(transport);
@@ -30,8 +29,8 @@ function closeTopicInfo() {
 }
 
 function closeTopicDebug() {
-  var transport = new winston.transports.Syslog(),
-      logger = new winston.createLogger({ transports: [transport] });
+  const transport = new winston.transports.Syslog();
+  const logger = new winston.createLogger({ transports: [transport] });
 
   logger.log('debug', 'Test message to actually use socket');
   logger.remove(transport);
@@ -39,14 +38,14 @@ function closeTopicDebug() {
   return transport;
 }
 
-var transport = new Syslog();
+const transport = new Syslog();
 
 vows.describe('winston-syslog').addBatch({
   'An instance of the Syslog Transport': {
     'should have the proper methods defined': function () {
       assertSyslog(transport);
     },
-    teardown: function () {
+    'teardown': function () {
       transport.close();
     },
     'on close after not really writing': {
@@ -71,17 +70,17 @@ vows.describe('winston-syslog').addBatch({
     },
     'localhost option': {
       'should default to localhost': function () {
-        var transport = new winston.transports.Syslog();
-        assert.equal(transport.localhost, 'localhost');
-        transport.close();
+        const transportLocal = new winston.transports.Syslog();
+        assert.equal(transportLocal.localhost, 'localhost');
+        transportLocal.close();
       },
       'should accept other falsy entries as valid': function () {
-        var transport = new winston.transports.Syslog({ localhost: null });
-        assert.isNull(transport.localhost);
-        transport.close();
-        transport = new winston.transports.Syslog({ localhost: false });
-        assert.equal(transport.localhost, false);
-        transport.close();
+        let transportNotLocal = new winston.transports.Syslog({ localhost: null });
+        assert.isNull(transportNotLocal.localhost);
+        transportNotLocal.close();
+        transportNotLocal = new winston.transports.Syslog({ localhost: false });
+        assert.equal(transportNotLocal.localhost, false);
+        transportNotLocal.close();
       }
     },
     'adding / removing transport to syslog': {

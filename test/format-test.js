@@ -1,23 +1,21 @@
-'use strict'
+'use strict';
 
-var fs = require('fs');
-var vows = require('vows');
-var assert = require('assert');
-var winston = require('winston');
-var dgram = require('dgram');
-var parser = require('glossy').Parse;
-var Syslog = require('../lib/winston-syslog').Syslog;
+const vows = require('vows');
+const assert = require('assert');
+const winston = require('winston');
+const dgram = require('dgram');
+const parser = require('glossy').Parse;
 
-var PORT = 11229;
-var server;
-var transport;
+const PORT = 11229;
+let server;
+let transport;
 
 const { MESSAGE, LEVEL } = require('triple-beam');
 
 vows.describe('syslog messages').addBatch({
   'opening fake syslog server': {
-    topic: function () {
-      var self = this;
+    'topic': function () {
+      const self = this;
       server = dgram.createSocket('udp4');
       server.on('listening', function () {
         self.callback();
@@ -26,11 +24,11 @@ vows.describe('syslog messages').addBatch({
       server.bind(PORT);
     },
     'default format': {
-      topic: function () {
-        var self = this;
+      'topic': function () {
+        const self = this;
         server.once('message', function (msg) {
           parser.parse(msg, function (d) {
-            self.callback(undefined, d);
+            self.callback(null, d);
           });
         });
 
@@ -46,11 +44,11 @@ vows.describe('syslog messages').addBatch({
         transport.close();
       },
       'setting locahost option to a different falsy value (null)': {
-        topic: function () {
-          var self = this;
+        'topic': function () {
+          const self = this;
           server.once('message', function (msg) {
             parser.parse(msg, function (d) {
-              self.callback(undefined, d);
+              self.callback(null, d);
             });
           });
 
@@ -68,11 +66,11 @@ vows.describe('syslog messages').addBatch({
           transport.close();
         },
         'setting appName option to hello': {
-          topic: function () {
-            var self = this;
+          'topic': function () {
+            const self = this;
             server.once('message', function (msg) {
               parser.parse(msg, function (d) {
-                self.callback(undefined, d);
+                self.callback(null, d);
               });
             });
 
@@ -91,11 +89,11 @@ vows.describe('syslog messages').addBatch({
             transport.close();
           },
           'setting app_name option to hello': {
-            topic: function () {
-              var self = this;
+            'topic': function () {
+              const self = this;
               server.once('message', function (msg) {
                 parser.parse(msg, function (d) {
-                  self.callback(undefined, d);
+                  self.callback(null, d);
                 });
               });
 
@@ -117,7 +115,7 @@ vows.describe('syslog messages').addBatch({
         }
       }
     },
-    teardown: function () {
+    'teardown': function () {
       server.close();
     }
   }
