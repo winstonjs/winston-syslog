@@ -1,7 +1,8 @@
+/* eslint no-sync: "off" */
+
 var fs = require('fs');
 var vows = require('vows');
 var assert = require('assert');
-var winston = require('winston');
 var unix = require('unix-dgram');
 var parser = require('glossy').Parse;
 var Syslog = require('../lib/winston-syslog').Syslog;
@@ -17,8 +18,7 @@ var transport = new Syslog({
 
 try {
   fs.unlinkSync(SOCKNAME);
-}
-catch (e) {
+} catch (e) {
   /* swallow */
 }
 
@@ -27,7 +27,7 @@ var server;
 
 vows.describe('unix-connect').addBatch({
   'Trying to log to a non-existant log server': {
-    topic: function () {
+    'topic': function () {
       var self = this;
       transport.once('error', function (err) {
         self.callback(null, err);
@@ -46,10 +46,10 @@ vows.describe('unix-connect').addBatch({
   }
 }).addBatch({
   'Logging when log server is up': {
-    topic: function () {
+    'topic': function () {
       var self = this;
       var n = 0;
-      server = unix.createSocket('unix_dgram', function (buf, rinfo) {
+      server = unix.createSocket('unix_dgram', function (buf) {
         parser.parse(buf, function (d) {
           ++n;
           assert(n <= 2);
@@ -72,7 +72,7 @@ vows.describe('unix-connect').addBatch({
   }
 }).addBatch({
   'Logging if server goes down again': {
-    topic: function () {
+    'topic': function () {
       var self = this;
       transport.once('error', function (err) {
         self.callback(null, err);
@@ -80,7 +80,7 @@ vows.describe('unix-connect').addBatch({
 
       server.close();
 
-     transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
+      transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert.ifError(err);
         assert.equal(transport.queue.length, 1);
       });
@@ -93,16 +93,15 @@ vows.describe('unix-connect').addBatch({
   }
 }).addBatch({
   'Logging works if server comes up again': {
-    topic: function () {
+    'topic': function () {
       var self = this;
       var n = 2;
       try {
         fs.unlinkSync(SOCKNAME);
-      }
-      catch (e) {
+      } catch (e) {
         /* swallow */
       }
-      server = unix.createSocket('unix_dgram', function (buf, rinfo) {
+      server = unix.createSocket('unix_dgram', function (buf) {
         parser.parse(buf, function (d) {
           ++n;
           assert(n <= 4);
