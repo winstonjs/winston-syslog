@@ -38,7 +38,7 @@ function closeTopicDebug() {
   return transport;
 }
 
-var transport = new Syslog();
+const transport = new Syslog();
 
 vows.describe('winston-syslog').addBatch({
   'An instance of the Syslog Transport': {

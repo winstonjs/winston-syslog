@@ -1,21 +1,21 @@
 'use strict';
 
-var vows = require('vows');
-var assert = require('assert');
-var winston = require('winston');
-var dgram = require('dgram');
-var parser = require('glossy').Parse;
+const vows = require('vows');
+const assert = require('assert');
+const winston = require('winston');
+const dgram = require('dgram');
+const parser = require('glossy').Parse;
 
-var PORT = 11229;
-var server;
-var transport;
+const PORT = 11229;
+let server;
+let transport;
 
 const { MESSAGE, LEVEL } = require('triple-beam');
 
 vows.describe('syslog messages').addBatch({
   'opening fake syslog server': {
     'topic': function () {
-      var self = this;
+      const self = this;
       server = dgram.createSocket('udp4');
       server.on('listening', function () {
         self.callback();
@@ -25,7 +25,7 @@ vows.describe('syslog messages').addBatch({
     },
     'default format': {
       'topic': function () {
-        var self = this;
+        const self = this;
         server.once('message', function (msg) {
           parser.parse(msg, function (d) {
             self.callback(null, d);
@@ -45,7 +45,7 @@ vows.describe('syslog messages').addBatch({
       },
       'setting locahost option to a different falsy value (null)': {
         'topic': function () {
-          var self = this;
+          const self = this;
           server.once('message', function (msg) {
             parser.parse(msg, function (d) {
               self.callback(null, d);
@@ -67,7 +67,7 @@ vows.describe('syslog messages').addBatch({
         },
         'setting appName option to hello': {
           'topic': function () {
-            var self = this;
+            const self = this;
             server.once('message', function (msg) {
               parser.parse(msg, function (d) {
                 self.callback(null, d);
@@ -90,7 +90,7 @@ vows.describe('syslog messages').addBatch({
           },
           'setting app_name option to hello': {
             'topic': function () {
-              var self = this;
+              const self = this;
               server.once('message', function (msg) {
                 parser.parse(msg, function (d) {
                   self.callback(null, d);
