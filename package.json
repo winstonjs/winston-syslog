@@ -25,16 +25,16 @@
     "syslog"
   ],
   "dependencies": {
-    "cycle": "~1.0.3",
-    "glossy": "0.x.x"
+    "cycle": "^1.0.3",
+    "glossy": "^0.1.7"
   },
   "optionalDependencies": {
-    "unix-dgram": "~0.2.1"
+    "unix-dgram": "^2.0.2"
   },
   "devDependencies": {
     "eslint-config-populist": "^4.1.0",
-    "vows": "~0.8.1",
-    "winston": "^3.0.0-rc0"
+    "vows": "^0.8.2",
+    "winston": "^3.0.0"
   },
   "main": "./lib/winston-syslog",
   "scripts": {
