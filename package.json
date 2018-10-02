@@ -31,6 +31,9 @@
   "optionalDependencies": {
     "unix-dgram": "^2.0.2"
   },
+  "peerDependencies": {
+    "winston": "^3.0.0"
+  },
   "devDependencies": {
     "eslint-config-populist": "^4.1.0",
     "vows": "^0.8.2",
