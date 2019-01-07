@@ -110,6 +110,42 @@ vows.describe('syslog messages').addBatch({
             'should have appName field set to hello': function (msg) {
               assert.equal(msg.appName, 'hello');
               transport.close();
+            },
+            'setting structuredData information': {
+              'topic': function () {
+                const self = this;
+                server.once('message', function (msg) {
+                  parser.parse(msg, function (d) {
+                    self.callback(null, d);
+                  });
+                });
+
+                transport = new winston.transports.Syslog({
+                  port: PORT,
+                  type: '5424'
+                });
+
+                transport.log({
+                  [LEVEL]: 'debug', [MESSAGE]: 'structured data test',
+                  meta: {
+                    structuredData: {
+                      'exampleSDID@32473': {
+                        sdKey: 'sdValue'
+                      }
+                    }
+                  }
+                }, function (err) {
+                  assert.ifError(err);
+                });
+              },
+              'should have structuredData field set': function (msg) {
+                assert.deepEqual(msg.structuredData, {
+                  'exampleSDID@32473': {
+                    sdKey: 'sdValue'
+                  }
+                });
+                transport.close();
+              }
             }
           }
         }
