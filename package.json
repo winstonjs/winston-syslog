@@ -26,7 +26,7 @@
   ],
   "dependencies": {
     "cycle": "^1.0.3",
-    "glossy": "^0.1.7"
+    "glossy": "github:pavkriz/glossy#efb47740b14defcaae289f98f43ae276cccd1a2f"
   },
   "optionalDependencies": {
     "unix-dgram": "^2.0.2"
