@@ -1,12 +1,16 @@
 {
   "name": "winston-syslog",
   "description": "A syslog transport for winston",
-  "version": "1.2.6",
+  "version": "2.1.0",
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "contributors": [
     {
       "name": "Squeeks",
       "email": "privacymyass@gmail.com"
+    },
+    {
+      "name": "Mempf",
+      "email": "mempf.com@gmail.com"
     }
   ],
   "repository": {
@@ -21,24 +25,28 @@
     "syslog"
   ],
   "dependencies": {
-    "cycle": "~1.0.3",
-    "glossy": "0.x.x"
+    "cycle": "^1.0.3",
+    "glossy": "^0.1.7"
   },
   "optionalDependencies": {
-    "unix-dgram": "~0.2.1"
-  },  
+    "unix-dgram": "^2.0.2"
+  },
+  "peerDependencies": {
+    "winston": "^3.0.0"
+  },
   "devDependencies": {
-    "stylezero": "^2.3.0",
-    "vows": "~0.8.1",
-    "winston": "^2.1.0"
+    "eslint-config-populist": "^4.1.0",
+    "vows": "^0.8.2",
+    "winston": "^3.0.0"
   },
   "main": "./lib/winston-syslog",
   "scripts": {
-    "pretest": "stylezero lib/ test/",
+    "lint": "populist **/*.js",
+    "pretest": "npm run lint",
     "test": "vows test/*-test.js --spec"
   },
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 4.2.2"
   },
   "license": "MIT"
 }

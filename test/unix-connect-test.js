@@ -1,37 +1,39 @@
-var fs = require('fs');
-var vows = require('vows');
-var assert = require('assert');
-var winston = require('winston');
-var unix = require('unix-dgram');
-var parser = require('glossy').Parse;
-var Syslog = require('../lib/winston-syslog').Syslog;
+/* eslint no-sync: "off" */
 
-var SOCKNAME = '/tmp/unix_dgram.sock';
+const fs = require('fs');
+const vows = require('vows');
+const assert = require('assert');
+const unix = require('unix-dgram');
+const parser = require('glossy').Parse;
+const Syslog = require('../lib/winston-syslog').Syslog;
 
-var transport = new Syslog({
+const { MESSAGE, LEVEL } = require('triple-beam');
+
+const SOCKNAME = '/tmp/unix_dgram.sock';
+
+const transport = new Syslog({
   protocol: 'unix-connect',
   path: SOCKNAME
 });
 
 try {
   fs.unlinkSync(SOCKNAME);
-}
-catch (e) {
+} catch (e) {
   /* swallow */
 }
 
-var times = 0;
-var server;
+let times = 0;
+let server;
 
 vows.describe('unix-connect').addBatch({
   'Trying to log to a non-existant log server': {
-    topic: function () {
-      var self = this;
+    'topic': function () {
+      const self = this;
       transport.once('error', function (err) {
         self.callback(null, err);
       });
 
-      transport.log('debug', 'data' + (++times), null, function (err) {
+      transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert(err);
         assert.equal(err.syscall, 'connect');
         assert.equal(transport.queue.length, 1);
@@ -44,14 +46,15 @@ vows.describe('unix-connect').addBatch({
   }
 }).addBatch({
   'Logging when log server is up': {
-    topic: function () {
-      var self = this;
-      var n = 0;
-      server = unix.createSocket('unix_dgram', function (buf, rinfo) {
+    'topic': function () {
+      const self = this;
+      let n = 0;
+      server = unix.createSocket('unix_dgram', function (buf) {
         parser.parse(buf, function (d) {
           ++n;
           assert(n <= 2);
-          assert.equal(d.message, 'node[' + process.pid + ']: debug: data' + n);
+          assert.equal(d.message, 'node[' + process.pid + ']: data' + n);
+          assert.equal(d.severity, 'debug');
           if (n === 2) {
             self.callback();
           }
@@ -59,7 +62,7 @@ vows.describe('unix-connect').addBatch({
       });
 
       server.bind(SOCKNAME);
-      transport.log('debug', 'data' + (++times), null, function (err) {
+      transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert.ifError(err);
       });
     },
@@ -69,15 +72,15 @@ vows.describe('unix-connect').addBatch({
   }
 }).addBatch({
   'Logging if server goes down again': {
-    topic: function () {
-      var self = this;
+    'topic': function () {
+      const self = this;
       transport.once('error', function (err) {
         self.callback(null, err);
       });
 
       server.close();
 
-      transport.log('debug', 'data' + (++times), null, function (err) {
+      transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert.ifError(err);
         assert.equal(transport.queue.length, 1);
       });
@@ -90,20 +93,24 @@ vows.describe('unix-connect').addBatch({
   }
 }).addBatch({
   'Logging works if server comes up again': {
-    topic: function () {
-      var self = this;
-      var n = 2;
+    'topic': function () {
+      const self = this;
+      transport.once('error', function (err) {
+        // Ignore error -- server hasn't come up yet, that's fine/expected
+        assert(err);
+        assert.equal(err.syscall, 'send');
+      });
+      let n = 2;
       try {
         fs.unlinkSync(SOCKNAME);
-      }
-      catch (e) {
+      } catch (e) {
         /* swallow */
       }
-      server = unix.createSocket('unix_dgram', function (buf, rinfo) {
+      server = unix.createSocket('unix_dgram', function (buf) {
         parser.parse(buf, function (d) {
           ++n;
           assert(n <= 4);
-          assert.equal(d.message, 'node[' + process.pid + ']: debug: data' + n);
+          assert.equal(d.message, 'node[' + process.pid + ']: data' + n);
           if (n === 4) {
             self.callback();
           }
@@ -111,13 +118,15 @@ vows.describe('unix-connect').addBatch({
       });
 
       server.bind(SOCKNAME);
-      transport.log('debug', 'data' + (++times), null, function (err) {
+      transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert.ifError(err);
       });
+      return null;
     },
     'should print both the enqueed and the new msg': function (err) {
       assert.ifError(err);
       server.close();
+      return null;
     }
   }
 

@@ -1,19 +1,21 @@
-var fs = require('fs');
-var vows = require('vows');
-var assert = require('assert');
-var winston = require('winston');
-var dgram = require('dgram');
-var parser = require('glossy').Parse;
-var Syslog = require('../lib/winston-syslog').Syslog;
+'use strict';
 
-var PORT = 11229;
-var server;
-var transport;
+const vows = require('vows');
+const assert = require('assert');
+const winston = require('winston');
+const dgram = require('dgram');
+const parser = require('glossy').Parse;
+
+const PORT = 11229;
+let server;
+let transport;
+
+const { MESSAGE, LEVEL } = require('triple-beam');
 
 vows.describe('syslog messages').addBatch({
   'opening fake syslog server': {
-    topic: function () {
-      var self = this;
+    'topic': function () {
+      const self = this;
       server = dgram.createSocket('udp4');
       server.on('listening', function () {
         self.callback();
@@ -22,19 +24,18 @@ vows.describe('syslog messages').addBatch({
       server.bind(PORT);
     },
     'default format': {
-      topic: function () {
-        var self = this;
+      'topic': function () {
+        const self = this;
         server.once('message', function (msg) {
           parser.parse(msg, function (d) {
-            self.callback(undefined, d);
+            self.callback(null, d);
           });
         });
 
         transport = new winston.transports.Syslog({
           port: PORT
         });
-
-        transport.log('debug', 'ping', null, function (err) {
+        transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'ping' }, function (err) {
           assert.ifError(err);
         });
       },
@@ -43,11 +44,11 @@ vows.describe('syslog messages').addBatch({
         transport.close();
       },
       'setting locahost option to a different falsy value (null)': {
-        topic: function () {
-          var self = this;
+        'topic': function () {
+          const self = this;
           server.once('message', function (msg) {
             parser.parse(msg, function (d) {
-              self.callback(undefined, d);
+              self.callback(null, d);
             });
           });
 
@@ -56,7 +57,7 @@ vows.describe('syslog messages').addBatch({
             localhost: null
           });
 
-          transport.log('debug', 'ping2', null, function (err) {
+          transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'ping2' }, function (err) {
             assert.ifError(err);
           });
         },
@@ -65,11 +66,11 @@ vows.describe('syslog messages').addBatch({
           transport.close();
         },
         'setting appName option to hello': {
-          topic: function () {
-            var self = this;
+          'topic': function () {
+            const self = this;
             server.once('message', function (msg) {
               parser.parse(msg, function (d) {
-                self.callback(undefined, d);
+                self.callback(null, d);
               });
             });
 
@@ -79,7 +80,7 @@ vows.describe('syslog messages').addBatch({
               appName: 'hello'
             });
 
-            transport.log('debug', 'app name test', null, function (err) {
+            transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'app name test' }, function (err) {
               assert.ifError(err);
             });
           },
@@ -88,11 +89,11 @@ vows.describe('syslog messages').addBatch({
             transport.close();
           },
           'setting app_name option to hello': {
-            topic: function () {
-              var self = this;
+            'topic': function () {
+              const self = this;
               server.once('message', function (msg) {
                 parser.parse(msg, function (d) {
-                  self.callback(undefined, d);
+                  self.callback(null, d);
                 });
               });
 
@@ -102,7 +103,7 @@ vows.describe('syslog messages').addBatch({
                 app_name: 'hello'
               });
 
-              transport.log('debug', 'app name test', null, function (err) {
+              transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'app name test' }, function (err) {
                 assert.ifError(err);
               });
             },
@@ -114,7 +115,7 @@ vows.describe('syslog messages').addBatch({
         }
       }
     },
-    teardown: function () {
+    'teardown': function () {
       server.close();
     }
   }
