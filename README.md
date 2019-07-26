@@ -62,7 +62,7 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 
 *Metadata:* Logged as string compiled by [glossy][3].
 
-By default, syslog messages are produced by [glossy][3], but you can override that behavior by providing
+By default, syslog messages are produced by [glossy][3], but you can override that behavior by providing a
 custom **Producer** instance via **customProducer** setting.
 
 ## Log Levels
