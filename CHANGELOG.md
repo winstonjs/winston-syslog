@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.2.0 / 2019-08-14
+
+- #[82], (@AlexMost) allow use of a customer producer
+- #[109], (@gdvyas) Prevent error before connection is established
+- #[114], (@vrza) Support 'udp' as an alias of 'udp4'
+
 ## v2.1.0 / 2019-02-17
 
 - (@DABH) Fix tests by fixing error emission/handling
