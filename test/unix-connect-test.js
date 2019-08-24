@@ -34,8 +34,7 @@ vows.describe('unix-connect').addBatch({
       });
 
       transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
-        assert(err);
-        assert.equal(err.syscall, 'connect');
+        assert.equal(null, err);
         assert.equal(transport.queue.length, 1);
       });
     },
