@@ -29,13 +29,13 @@
     "glossy": "^0.1.7"
   },
   "optionalDependencies": {
-    "unix-dgram": "^2.0.2"
+    "unix-dgram": "2.0.2"
   },
   "peerDependencies": {
     "winston": "^3.0.0"
   },
   "devDependencies": {
-    "eslint-config-populist": "^4.1.0",
+    "eslint-config-populist": "4.1.0",
     "vows": "^0.8.2",
     "winston": "^3.0.0"
   },
