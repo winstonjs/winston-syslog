@@ -2,7 +2,6 @@
 
 const vows = require('vows');
 const assert = require('assert');
-const winston = require('winston');
 const Syslog = require('../lib/winston-syslog.js').Syslog;
 const dgram = require('dgram');
 const parser = require('glossy').Parse;
@@ -135,12 +134,12 @@ vows.describe('syslog messages').addBatch({
       'topic': function () {
         var self = this;
         server.once('message', function (msg) {
-          self.callback(undefined, msg.toString());
+          self.callback(null, msg.toString());
         });
 
         function CustomProducer() {}
         CustomProducer.prototype.produce = function (opts) {
-          return 'test ' + opts.message;
+          return 'test ' + opts.severity + ': ' + opts.message;
         };
 
         transport = new Syslog({
@@ -148,7 +147,7 @@ vows.describe('syslog messages').addBatch({
           customProducer: CustomProducer
         });
 
-        transport.log('debug', 'ping', null, function (err) {
+        transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'ping' }, function (err) {
           assert.ifError(err);
         });
       },
