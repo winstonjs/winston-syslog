@@ -3,6 +3,7 @@
 const vows = require('vows');
 const assert = require('assert');
 const winston = require('winston');
+const Syslog = require('../lib/winston-syslog.js').Syslog;
 const dgram = require('dgram');
 const parser = require('glossy').Parse;
 
@@ -32,7 +33,7 @@ vows.describe('syslog messages').addBatch({
           });
         });
 
-        transport = new winston.transports.Syslog({
+        transport = new Syslog({
           port: PORT
         });
         transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'ping' }, function (err) {
@@ -52,7 +53,7 @@ vows.describe('syslog messages').addBatch({
             });
           });
 
-          transport = new winston.transports.Syslog({
+          transport = new Syslog({
             port: PORT,
             localhost: null
           });
@@ -74,7 +75,7 @@ vows.describe('syslog messages').addBatch({
               });
             });
 
-            transport = new winston.transports.Syslog({
+            transport = new Syslog({
               port: PORT,
               type: '5424',
               appName: 'hello'
@@ -97,7 +98,7 @@ vows.describe('syslog messages').addBatch({
                 });
               });
 
-              transport = new winston.transports.Syslog({
+              transport = new Syslog({
                 port: PORT,
                 type: '5424',
                 app_name: 'hello'
@@ -121,7 +122,7 @@ vows.describe('syslog messages').addBatch({
   }
 }).addBatch({
   'opening fake syslog server': {
-    topic: function () {
+    'topic': function () {
       var self = this;
       server = dgram.createSocket('udp4');
       server.on('listening', function () {
@@ -131,7 +132,7 @@ vows.describe('syslog messages').addBatch({
       server.bind(PORT);
     },
     'Custom producer': {
-      topic: function () {
+      'topic': function () {
         var self = this;
         server.once('message', function (msg) {
           self.callback(undefined, msg.toString());
@@ -142,7 +143,7 @@ vows.describe('syslog messages').addBatch({
           return 'test ' + opts.message;
         };
 
-        transport = new winston.transports.Syslog({
+        transport = new Syslog({
           port: PORT,
           customProducer: CustomProducer
         });
@@ -156,7 +157,7 @@ vows.describe('syslog messages').addBatch({
         transport.close();
       }
     },
-    teardown: function () {
+    'teardown': function () {
       server.close();
     }
   }
