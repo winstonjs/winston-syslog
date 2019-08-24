@@ -29,7 +29,7 @@
     "glossy": "^0.1.7"
   },
   "optionalDependencies": {
-    "unix-dgram": "^2.0.2"
+    "unix-dgram": "^2.0.3"
   },
   "peerDependencies": {
     "winston": "^3.0.0"
