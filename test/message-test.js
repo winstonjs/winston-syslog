@@ -2,6 +2,7 @@
 
 const vows = require('vows');
 const assert = require('assert');
+const sinon = require('sinon');
 const Syslog = require('../lib/winston-syslog.js').Syslog;
 const dgram = require('dgram');
 
@@ -10,6 +11,8 @@ let server;
 let transport;
 let maxUdpLength;
 let message;
+let sentMessage;
+let numChunks;
 
 const { MESSAGE, LEVEL } = require('triple-beam');
 
@@ -30,16 +33,14 @@ vows
       },
       'logging an oversize message': {
         'topic': function () {
-          const chunks = [];
           // Generate message larger than max UDP message size.
           message = '#'.repeat(65000);
           transport = new Syslog({
             port: PORT
           });
 
-          transport.emitter.on('chunk', function (chunk) {
-            chunks.push(chunk);
-          });
+          sinon.spy(transport, 'chunkMessage');
+          sinon.spy(transport, '_sendChunk');
 
           transport.log({ [LEVEL]: 'debug', [MESSAGE]: message }, function (
             err
@@ -47,29 +48,44 @@ vows
             assert.ifError(err);
           });
 
-          return chunks;
+          return null;
         },
-        'correct number of chunks sent': function (chunks) {
-          const sentMessage = chunks.reduce((acc, chunk) => {
-            return (acc += chunk);
-          }, '');
-          assert.equal(
-            Math.ceil(sentMessage.length / maxUdpLength),
-            chunks.length
-          );
-        },
-        'full message sent': function (chunks) {
-          const sentMessageBody = chunks.reduce((acc, chunk) => {
-            const regex = /#+/gm;
-            const msg = chunk.match(regex);
-            return (acc += msg);
-          }, '');
+        'correct number of chunks sent': function () {
+          assert(transport.chunkMessage.calledOnce);
 
-          assert.equal(sentMessageBody, message);
+          sentMessage = transport.chunkMessage.getCall(0).args[0].toString();
+          numChunks = Math.ceil(sentMessage.length / maxUdpLength);
+          assert.equal(numChunks, transport._sendChunk.callCount);
+        },
+        'correct chunks sent': function () {
+          let offset = 0;
+          let i = 0;
+
+          while (offset < sentMessage.length) {
+            const length =
+              offset + maxUdpLength > sentMessage.length
+                ? sentMessage.length - offset
+                : maxUdpLength;
+            const buffer = Buffer.from(sentMessage);
+            const options = {
+              offset: offset,
+              length: length,
+              port: transport.port,
+              host: transport.host
+            };
+
+            assert(transport._sendChunk.getCall(i).calledWith(buffer, options));
+
+            offset += length;
+            i++;
+          }
+
           transport.close();
         }
       },
       'teardown': function () {
+        transport.chunkMessage.restore();
+        transport._sendChunk.restore();
         server.close();
       }
     }
