@@ -54,7 +54,6 @@ vows
           assert(transport.chunkMessage.calledOnce);
 
           sentMessage = transport.chunkMessage.getCall(0).args[0];
-          console.log(sentMessage);
           numChunks = Math.ceil(sentMessage.length / maxUdpLength);
           assert.equal(numChunks, transport._sendChunk.callCount);
         },
