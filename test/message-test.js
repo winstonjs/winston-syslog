@@ -51,7 +51,7 @@ vows
           return null;
         },
         'correct number of chunks sent': function () {
-          assert(transport.chunkMessage.calledOnce);
+          assert(transport.chunkMessage.calledTwice);
 
           sentMessage = transport.chunkMessage.getCall(0).args[0];
           numChunks = Math.ceil(sentMessage.length / maxUdpLength);
@@ -61,6 +61,7 @@ vows
           let offset = 0;
           let i = 0;
 
+          sentMessage = transport.chunkMessage.getCall(0).args[0];
           while (offset < sentMessage.length) {
             const length =
               offset + maxUdpLength > sentMessage.length
