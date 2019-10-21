@@ -47,7 +47,7 @@
     "test": "vows test/*-test.js --spec"
   },
   "engines": {
-    "node": ">= 4.2.2"
+    "node": ">= 8"
   },
   "license": "MIT"
 }
