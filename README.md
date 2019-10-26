@@ -54,7 +54,7 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 * __app_name:__ The name of the application (Default: `process.title`).
 * __eol:__ The end of line character to be added to the end of the message (Default: Message without modifications).
 
-*Metadata:* Logged as string compiled by [glossy][3].
+*Metadata:* Logged as string compiled by [glossy][3]. For RFC5424 messages, you can also include structured data here, inside a `structuredData` object.
 
 ## Log Levels
 Because syslog only allows a subset of the levels available in [winston][0], levels that do not match will be ignored. Therefore, in order to use `winston-syslog` effectively, you should indicate to [winston][0] that you want to use the syslog levels:
