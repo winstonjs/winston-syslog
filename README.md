@@ -60,7 +60,7 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 * __app_name:__ The name of the application (Default: `process.title`).
 * __eol:__ The end of line character to be added to the end of the message (Default: Message without modifications).
 
-*Metadata:* Logged as string compiled by [glossy][3].
+*Metadata:* Logged as string compiled by [glossy][3]. For RFC5424 messages, you can also include structured data here, inside a `structuredData` object.
 
 By default, syslog messages are produced by [glossy][3], but you can override that behavior by providing a
 custom **Producer** instance via the **customProducer** setting.
