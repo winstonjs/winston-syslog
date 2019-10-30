@@ -120,7 +120,7 @@ vows.describe('syslog messages').addBatch({
                   });
                 });
 
-                transport = new winston.transports.Syslog({
+                transport = new Syslog({
                   port: PORT,
                   type: '5424'
                 });
