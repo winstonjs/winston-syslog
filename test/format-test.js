@@ -2,7 +2,7 @@
 
 const vows = require('vows');
 const assert = require('assert');
-const winston = require('winston');
+const Syslog = require('../lib/winston-syslog.js').Syslog;
 const dgram = require('dgram');
 const parser = require('glossy').Parse;
 
@@ -32,7 +32,7 @@ vows.describe('syslog messages').addBatch({
           });
         });
 
-        transport = new winston.transports.Syslog({
+        transport = new Syslog({
           port: PORT
         });
         transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'ping' }, function (err) {
@@ -52,7 +52,7 @@ vows.describe('syslog messages').addBatch({
             });
           });
 
-          transport = new winston.transports.Syslog({
+          transport = new Syslog({
             port: PORT,
             localhost: null
           });
@@ -74,7 +74,7 @@ vows.describe('syslog messages').addBatch({
               });
             });
 
-            transport = new winston.transports.Syslog({
+            transport = new Syslog({
               port: PORT,
               type: '5424',
               appName: 'hello'
@@ -97,7 +97,7 @@ vows.describe('syslog messages').addBatch({
                 });
               });
 
-              transport = new winston.transports.Syslog({
+              transport = new Syslog({
                 port: PORT,
                 type: '5424',
                 app_name: 'hello'
@@ -149,6 +149,47 @@ vows.describe('syslog messages').addBatch({
             }
           }
         }
+      }
+    },
+    'teardown': function () {
+      server.close();
+    }
+  }
+}).addBatch({
+  'opening fake syslog server': {
+    'topic': function () {
+      var self = this;
+      server = dgram.createSocket('udp4');
+      server.on('listening', function () {
+        self.callback();
+      });
+
+      server.bind(PORT);
+    },
+    'Custom producer': {
+      'topic': function () {
+        var self = this;
+        server.once('message', function (msg) {
+          self.callback(null, msg.toString());
+        });
+
+        function CustomProducer() {}
+        CustomProducer.prototype.produce = function (opts) {
+          return 'test ' + opts.severity + ': ' + opts.message;
+        };
+
+        transport = new Syslog({
+          port: PORT,
+          customProducer: CustomProducer
+        });
+
+        transport.log({ [LEVEL]: 'debug', [MESSAGE]: 'ping' }, function (err) {
+          assert.ifError(err);
+        });
+      },
+      'should apply custom syslog format': function (msg) {
+        assert.equal(msg, 'test debug: ping');
+        transport.close();
       }
     },
     'teardown': function () {

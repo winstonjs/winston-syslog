@@ -34,8 +34,7 @@ vows.describe('unix-connect').addBatch({
       });
 
       transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
-        assert(err);
-        assert.equal(err.syscall, 'connect');
+        assert.equal(null, err);
         assert.equal(transport.queue.length, 1);
       });
     },
@@ -95,6 +94,11 @@ vows.describe('unix-connect').addBatch({
   'Logging works if server comes up again': {
     'topic': function () {
       const self = this;
+      transport.once('error', function (err) {
+        // Ignore error -- server hasn't come up yet, that's fine/expected
+        assert(err);
+        assert.equal(err.syscall, 'send');
+      });
       let n = 2;
       try {
         fs.unlinkSync(SOCKNAME);
@@ -106,7 +110,6 @@ vows.describe('unix-connect').addBatch({
           ++n;
           assert(n <= 4);
           assert.equal(d.message, 'node[' + process.pid + ']: data' + n);
-          assert.equal(d.severity, 'debug');
           if (n === 4) {
             self.callback();
           }
@@ -117,10 +120,12 @@ vows.describe('unix-connect').addBatch({
       transport.log({ [LEVEL]: 'debug', [MESSAGE]: `data${++times}` }, function (err) {
         assert.ifError(err);
       });
+      return null;
     },
     'should print both the enqueed and the new msg': function (err) {
       assert.ifError(err);
       server.close();
+      return null;
     }
   }
 

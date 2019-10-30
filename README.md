@@ -2,6 +2,12 @@
 
 A Syslog transport for [winston][0].
 
+[![Version npm](https://img.shields.io/npm/v/winston-syslog.svg?style=flat-square)](https://www.npmjs.com/package/winston-syslog)[![npm
+Downloads](https://img.shields.io/npm/dm/winston-syslog.svg?style=flat-square)](https://npmcharts.com/compare/winston-syslog?minimal=true)[![Build
+Status](https://img.shields.io/travis/winstonjs/winston-syslog/master.svg?style=flat-square)](https://travis-ci.org/winstonjs/winston-syslog)[![Dependencies](https://img.shields.io/david/winstonjs/winston-syslog.svg?style=flat-square)](https://david-dm.org/winstonjs/winston-syslog)
+
+[![NPM](https://nodei.co/npm/winston-syslog.png?downloads=true&downloadRank=true)](https://nodei.co/npm/winston-syslog/)
+
 ## Requirements
 
 * winston >= 3.0.0
@@ -55,6 +61,9 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 * __eol:__ The end of line character to be added to the end of the message (Default: Message without modifications).
 
 *Metadata:* Logged as string compiled by [glossy][3]. For RFC5424 messages, you can also include structured data here, inside a `structuredData` object.
+
+By default, syslog messages are produced by [glossy][3], but you can override that behavior by providing a
+custom **Producer** instance via the **customProducer** setting.
 
 ## Log Levels
 Because syslog only allows a subset of the levels available in [winston][0], levels that do not match will be ignored. Therefore, in order to use `winston-syslog` effectively, you should indicate to [winston][0] that you want to use the syslog levels:
