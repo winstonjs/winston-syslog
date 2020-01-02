@@ -1,9 +1,13 @@
 {
   "name": "winston-syslog",
   "description": "A syslog transport for winston",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "contributors": [
+    {
+      "name": "DABH",
+      "email": "DABH@users.noreply.github.com"
+    },
     {
       "name": "Squeeks",
       "email": "privacymyass@gmail.com"
@@ -26,18 +30,18 @@
   ],
   "dependencies": {
     "cycle": "^1.0.3",
-    "glossy": "^0.1.7"
+    "eslint-config-populist": "^4.2.0",
+    "glossy": "^0.1.7",
+    "sinon": "^8.0.2",
+    "vows": "^0.8.3"
   },
   "optionalDependencies": {
-    "unix-dgram": "2.0.2"
+    "unix-dgram": "2.0.3"
   },
   "peerDependencies": {
     "winston": "^3.0.0"
   },
   "devDependencies": {
-    "eslint-config-populist": "4.2.0",
-    "sinon": "^7.5.0",
-    "vows": "^0.8.2",
     "winston": "^3.0.0"
   },
   "main": "./lib/winston-syslog",
