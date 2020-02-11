@@ -9,7 +9,7 @@ const dgram = require('dgram');
 const PORT = 11229;
 let server;
 let transport;
-let maxUdpLength;
+let maxUdpPayload;
 let message;
 let sentMessage;
 let numChunks;
@@ -24,8 +24,14 @@ vows
         const self = this;
         server = dgram.createSocket('udp4');
         server.on('listening', function () {
-          // Get the maximum buffer size for the current server.
-          maxUdpLength = server.getSendBufferSize();
+          // Maximum payload for the UDP transport
+          // 65535 − 8 bytes UDP header − 20 bytes IP header
+          // https://tools.ietf.org/html/rfc5426#section-3.2
+          // This makes sense on loopback interfaces with MTU = 65536
+          // For non-loopback messages, it's impossible to know in advance
+          // the MTU of each interface through which a packet might be routed
+          // https://nodejs.org/api/dgram.html
+          maxUdpPayload = 65507;
           self.callback();
         });
 
@@ -34,7 +40,7 @@ vows
       'logging an oversize message': {
         'topic': function () {
           // Generate message larger than max UDP message size.
-          message = '#'.repeat(65000);
+          message = '#'.repeat(maxUdpPayload + 1000);
           transport = new Syslog({
             port: PORT
           });
@@ -54,7 +60,7 @@ vows
           assert(transport.chunkMessage.calledTwice);
 
           sentMessage = transport.chunkMessage.getCall(0).args[0];
-          numChunks = Math.ceil(sentMessage.length / maxUdpLength);
+          numChunks = Math.ceil(sentMessage.length / maxUdpPayload);
           assert.equal(numChunks, transport._sendChunk.callCount);
         },
         'correct chunks sent': function () {
@@ -64,9 +70,9 @@ vows
           sentMessage = transport.chunkMessage.getCall(0).args[0];
           while (offset < sentMessage.length) {
             const length =
-              offset + maxUdpLength > sentMessage.length
+              offset + maxUdpPayload > sentMessage.length
                 ? sentMessage.length - offset
-                : maxUdpLength;
+                : maxUdpPayload;
             const buffer = Buffer.from(sentMessage);
             const options = {
               offset: offset,
