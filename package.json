@@ -29,7 +29,6 @@
     "syslog"
   ],
   "dependencies": {
-    "cycle": "^1.0.3",
     "eslint-config-populist": "^4.2.0",
     "glossy": "^0.1.7",
     "sinon": "^8.0.2",
