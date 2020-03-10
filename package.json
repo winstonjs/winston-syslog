@@ -29,8 +29,11 @@
     "syslog"
   ],
   "dependencies": {
-    "cycle": "^1.0.3",
     "glossy": "^0.1.7"
+    "eslint-config-populist": "^4.2.0",
+    "glossy": "^0.1.7",
+    "sinon": "^8.0.2",
+    "vows": "^0.8.3"
   },
   "optionalDependencies": {
     "unix-dgram": "2.0.3"
