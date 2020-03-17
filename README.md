@@ -85,7 +85,7 @@ The `Syslog` transport will only log to the level that are available in the sysl
 * info
 * notice
 * warning
-* error
+* err
 * crit
 * alert
 * emerg
