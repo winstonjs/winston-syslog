@@ -49,8 +49,8 @@ To use the Syslog transport in [winston][0], you simply need to require it and t
 
 In addition to the options accepted by the syslog (compliant with [RFC 3164][1] and [RFC 5424][2]), the Riak transport also accepts the following options. It is worth noting that the riak-js debug option is set to *false* by default:
 
-* __host:__ The host running syslogd, defaults to localhost.
-* __port:__ The port on the host that syslog is running on, defaults to syslogd's default port.
+* __host:__ The host running syslog, defaults to localhost.
+* __port:__ The port on the host that syslog is running on, defaults to syslog's default port.
 * __protocol:__ The network protocol to log over (e.g. `tcp4`, `udp4`, `tls4`, `unix`, `unix-connect`, etc).
 * __protocolOptions:__ Socket connect options. See [`net.socket.connect`](https://nodejs.org/api/net.html#net_socket_connect_options_connectlistener) for available options.
 * __path:__ The path to the syslog dgram socket (i.e. `/dev/log` or `/var/run/syslog` for OS X).
