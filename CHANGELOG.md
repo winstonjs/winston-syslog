@@ -1,10 +1,14 @@
 # CHANGELOG
 
+## Latest
+
+- #[147], (@zenonhun) fix TLS connection support
+
 ## v2.4.0 / 2020-01-01
 
 - (@DABH) Node v12 support, fix node-unix-dgram issues, update dependencies
 - #[115], (@pepakriz) TLS connection support
-- #[123], (@JeffTomlinson, @elliotttf)  Handle oversize messages sent over UDP transports
+- #[123], (@JeffTomlinson, @elliotttf) Handle oversize messages sent over UDP transports
 - #[116], (@pepakriz) Make socket options configurable
 - #[122], (@cjbarth) Correct improper opening and closing of sockets
 
@@ -20,4 +24,3 @@
 - #[108], (@vrza) Make winston 3 a peer dependency
 - #[102], (@stieg) Require winston >= 3 and add corresopnding note in readme
 - #[105], (@mohd-akram) Update dependencies for latest Node compatibility
-

@@ -32,13 +32,14 @@
     "glossy": "^0.1.7"
   },
   "optionalDependencies": {
-    "unix-dgram": "2.0.3"
+    "unix-dgram": "^2.0.4"
   },
   "peerDependencies": {
     "winston": "^3.0.0"
   },
   "devDependencies": {
     "eslint-config-populist": "^4.2.0",
+    "selfsigned": "^1.10.8",
     "sinon": "^8.0.2",
     "vows": "^0.8.3",
     "winston": "^3.0.0"
