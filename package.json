@@ -29,7 +29,7 @@
     "syslog"
   ],
   "dependencies": {
-    "glossy": "^0.1.7"
+    "@myndzi/glossy": "^0.1.11"
   },
   "optionalDependencies": {
     "unix-dgram": "2.0.3"

@@ -4,7 +4,7 @@ const vows = require('vows');
 const assert = require('assert');
 const Syslog = require('../lib/winston-syslog.js').Syslog;
 const dgram = require('dgram');
-const parser = require('glossy').Parse;
+const parser = require('@myndzi/glossy').Parse;
 
 const PORT = 11229;
 let server;
@@ -69,7 +69,7 @@ vows
             assert.notEqual(msg.host, 'localhost');
             transport.close();
           },
-          'setting appName option to hello': {
+          'setting appName option to hello and type to 5424': {
             'topic': function () {
               const self = this;
               server.once('message', function (msg) {
@@ -93,6 +93,14 @@ vows
             },
             'should have appName field set to hello': function (msg) {
               assert.equal(msg.appName, 'hello');
+            },
+            'should have proper time zone': function (msg) {
+              const now = new Date();
+              assert.equal((Math.abs((now - msg.time) / 1000) < 300), true);
+            },
+            'should have proper milliseconds format': function (msg) {
+              const milliseconds = msg.originalMessage.split(' ')[1].slice(20, 23);
+              assert.equal(isNaN(milliseconds), false);
               transport.close();
             },
             'setting app_name option to hello': {

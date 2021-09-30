@@ -4,7 +4,7 @@ const fs = require('fs');
 const vows = require('vows');
 const assert = require('assert');
 const unix = require('unix-dgram');
-const parser = require('glossy').Parse;
+const parser = require('@myndzi/glossy').Parse;
 const Syslog = require('../lib/winston-syslog').Syslog;
 
 const { MESSAGE, LEVEL } = require('triple-beam');
