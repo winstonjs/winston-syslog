@@ -51,7 +51,7 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 
 * __host:__ The host running syslogd, defaults to localhost.
 * __port:__ The port on the host that syslog is running on, defaults to syslogd's default port.
-* __protocol:__ The network protocol to log over (e.g. `tcp4`, `udp4`, `tls4`, `unix`, `unix-connect`, etc).
+* __protocol:__ The network protocol to log over (e.g. `tcp4`, `udp4`, `tls4`, `unix`, `unix-connect`, etc), defaults to `udp4`.
 * __protocolOptions:__ Socket connect options. See [`net.socket.connect`](https://nodejs.org/api/net.html#net_socket_connect_options_connectlistener) for available options.
 * __path:__ The path to the syslog dgram socket (i.e. `/dev/log` or `/var/run/syslog` for OS X).
 * __pid:__ PID of the process that log messages are coming from (Default `process.pid`).
@@ -92,9 +92,9 @@ The `Syslog` transport will only log to the level that are available in the sysl
 
 ## Syslog Configuration
 
-You will have to configure your syslog server to accept TCP connections.
-This is usually done in `/etc/syslog-ng.conf`. Let's say you have an app called `fnord`,
-the configuration would look something like this:
+You will have to configure your syslog server to accept TCP or UDP connections.
+This is usually done in `/etc/syslog-ng.conf`. Let's say you have an app called `fnord`
+and want to use TCP, the configuration would look something like this:
 
 ```
   source tcp_s {
