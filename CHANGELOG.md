@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.5.0 / 2022-02-04
+
+- #[165], (@Apollon77) Catch exceptions thrown by socket send
+- (@DABH) Bump dependencies
+
 ## v2.4.0 / 2020-01-01
 
 - (@DABH) Node v12 support, fix node-unix-dgram issues, update dependencies
