@@ -1,5 +1,7 @@
 # winston-syslog
 
+test ci
+
 A Syslog transport for [winston][0].
 
 [![Version npm](https://img.shields.io/npm/v/winston-syslog.svg?style=flat-square)](https://www.npmjs.com/package/winston-syslog)[![npm
