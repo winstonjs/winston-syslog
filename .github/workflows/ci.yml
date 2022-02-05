@@ -30,5 +30,3 @@ jobs:
         run: npm run lint
       - name: Test
         run: npm test
-      - name: TypeScript Test
-        run: npx --package typescript tsc --project test
