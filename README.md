@@ -2,9 +2,9 @@
 
 A Syslog transport for [winston][0].
 
-[![Version npm](https://img.shields.io/npm/v/winston-syslog.svg?style=flat-square)](https://www.npmjs.com/package/winston-syslog)[![npm
-Downloads](https://img.shields.io/npm/dm/winston-syslog.svg?style=flat-square)](https://npmcharts.com/compare/winston-syslog?minimal=true)[![Build
-Status](https://img.shields.io/travis/winstonjs/winston-syslog/master.svg?style=flat-square)](https://travis-ci.org/winstonjs/winston-syslog)[![Dependencies](https://img.shields.io/david/winstonjs/winston-syslog.svg?style=flat-square)](https://david-dm.org/winstonjs/winston-syslog)
+[![Version npm](https://img.shields.io/npm/v/winston-syslog.svg?style=flat-square)](https://www.npmjs.com/package/winston-syslog)
+[![npm Downloads](https://img.shields.io/npm/dm/winston-syslog.svg?style=flat-square)](https://npmcharts.com/compare/winston-syslog?minimal=true)
+[![build status](https://github.com/winstonjs/winston-syslog/actions/workflows/ci.yml/badge.svg)](https://github.com/winstonjs/winston-syslog/actions/workflows/ci.yml)
 
 [![NPM](https://nodei.co/npm/winston-syslog.png?downloads=true&downloadRank=true)](https://nodei.co/npm/winston-syslog/)
 
