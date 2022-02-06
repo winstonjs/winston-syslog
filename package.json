@@ -38,14 +38,15 @@
     "winston": "^3.0.0"
   },
   "devDependencies": {
-    "eslint-config-populist": "^4.2.0",
+    "eslint": "^8.8.0",
+    "@dabh/eslint-config-populist": "^5.0.0",
     "sinon": "^13.0.1",
     "vows": "^0.8.3",
     "winston": "^3.0.0"
   },
   "main": "./lib/winston-syslog",
   "scripts": {
-    "lint": "populist **/*.js",
+    "lint": "eslint **/*.js --resolve-plugins-relative-to ./node_modules/@dabh/eslint-config-populist",
     "pretest": "npm run lint",
     "test": "vows test/*-test.js --spec"
   },
