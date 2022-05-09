@@ -40,7 +40,7 @@
   "devDependencies": {
     "eslint": "^8.8.0",
     "@dabh/eslint-config-populist": "^5.0.0",
-    "sinon": "^13.0.1",
+    "sinon": "^14.0.0",
     "vows": "^0.8.3",
     "winston": "^3.0.0"
   },
