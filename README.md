@@ -66,7 +66,7 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 
 * __secureProtocol:__ check TLSScoket options https://nodejs.org/api/tls.html#class-tlstlssocket
 * __ciphers:__ check TLSScoket options https://nodejs.org/api/tls.html#class-tlstlssocket
-* __ecdhCurve:__ check TLSScoket options https://nodejs.org/api/tls.html#class-tlstlssocket \
+* __ecdhCurve:__ check TLSScoket options https://nodejs.org/api/tls.html#class-tlstlssocket
 
 *Metadata:* Logged as string compiled by [glossy][3].
 
