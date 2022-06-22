@@ -61,9 +61,7 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 * __app_name:__ The name of the application (Default: `process.title`).
 * __eol:__ The end of line character to be added to the end of the message 
 (Default: Message without modifications).
-
 * __checkServerIdentity:__ check TLSScoket options https://nodejs.org/api/tls.html#class-tlstlssocket
-
 * __secureProtocol:__ check TLSScoket options https://nodejs.org/api/tls.html#class-tlstlssocket
 * __ciphers:__ check TLSScoket options https://nodejs.org/api/tls.html#class-tlstlssocket
 * __ecdhCurve:__ check TLSScoket options https://nodejs.org/api/tls.html#class-tlstlssocket
