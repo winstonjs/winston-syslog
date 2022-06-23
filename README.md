@@ -61,9 +61,12 @@ In addition to the options accepted by the syslog (compliant with [RFC 3164][1] 
 * __app_name:__ The name of the application (Default: `process.title`).
 * __eol:__ The end of line character to be added to the end of the message
 (Default: Message without modifications).
-* __secureProtocol:__ See <https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options> for more information on TLS options.
-* __ciphers:__ See <https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options> for more information on TLS options.
-* __ecdhCurve:__ See <https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options> for more information on TLS options.
+* __secureProtocol:__ See <https://nodejs.org/api/tls.html#tlscreatesecurecontextoptions> for more information on this option,
+passed through from [this](https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options) constructor.
+* __ciphers:__ See <https://nodejs.org/api/tls.html#tlscreatesecurecontextoptions> for more information on this option,
+passed through from [this](https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options) constructor.
+* __ecdhCurve:__ See <https://nodejs.org/api/tls.html#tlscreatesecurecontextoptions> for more information on this option,
+passed through from [this](https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options) constructor.
 
 *Metadata:* Logged as string compiled by [glossy][3].
 
