@@ -1,7 +1,7 @@
 {
   "name": "winston-syslog",
   "description": "A syslog transport for winston",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "contributors": [
     {
