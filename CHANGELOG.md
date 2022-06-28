@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.6.0 / 2022-06-28
+
+- (@wbt) Bump dependencies
+- #[192], (@Omidznlp) Add TLSsocket Options
+
 ## v2.5.0 / 2022-02-04
 
 - #[165], (@Apollon77) Catch exceptions thrown by socket send
