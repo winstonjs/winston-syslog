@@ -67,6 +67,10 @@ passed through from [this](https://nodejs.org/api/tls.html#new-tlstlssocketsocke
 passed through from [this](https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options) constructor.
 * __ecdhCurve:__ See <https://nodejs.org/api/tls.html#tlscreatesecurecontextoptions> for more information on this option,
 passed through from [this](https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options) constructor.
+* __rejectUnauthorized:__ See <https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options> for more information on this option,
+passed through from [this](https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options) constructor.
+* __requestCert:__ See <https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options> for more information on this option,
+passed through from [this](https://nodejs.org/api/tls.html#new-tlstlssocketsocket-options) constructor.
 
 *Metadata:* Logged as string compiled by [glossy][3].
 
